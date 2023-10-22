@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.service import Service
 from time import sleep
 import getpass
 import ast
+
+from selenium.webdriver.common.by import By
 sleep(1)
 # username = input("Username: ")
 # pw = getpass.getpass("Password: ")
@@ -25,7 +27,7 @@ class InstaBot:
             .send_keys(pw)
         self.driver.find_element("xpath",'//button[@type="submit"]')\
             .click()
-        sleep(10)
+        sleep(20)
 
     def unfollow(self, nf_file):
         i = 0
@@ -37,21 +39,23 @@ class InstaBot:
             if self.driver.current_url == "https://www.instagram.com/"+self.target:
                 try:
                     try:
+                        if (self.target and num_followers and num_following):
+                            print("  " * (len(self.target)+len(num_followers)+len(num_following)+20),end="\r")
+
                         num_followers = self.driver.find_element("xpath","/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/ul/li[2]/a").text
                         num_following = self.driver.find_element("xpath","/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/ul/li[3]/a").text
-                        print(i,len(not_following),end="\r")
-                        print(self.target,num_followers,num_following,end="\r")
-                    except:
-                        continue
-                    
-                    self.driver.find_element("xpath","/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/div[1]/div[1]/div/div[1]/button")\
-                        .click()
-                    sleep(2)
 
-                    self.driver.find_element("xpath","/html/body/div[2]/div/div/div[3]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div/div[8]/div[1]/div/div/div/div/div")\
-                        .click()
-                    sleep(2)
-                    
+                        print(self.target,num_followers,num_following,end="\r")
+                    finally:
+
+                        self.driver.find_element(By.XPATH, '//div[text()="Following"]')\
+                            .click()
+                        sleep(2)
+
+                        self.driver.find_element(By.XPATH, '//span[text()="Unfollow"]')\
+                            .click()
+                        sleep(2)
+                        
                 except:
                     continue
                 
