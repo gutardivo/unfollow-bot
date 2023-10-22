@@ -6,16 +6,14 @@ import ast
 
 from selenium.webdriver.common.by import By
 sleep(1)
-# username = input("Username: ")
-# pw = getpass.getpass("Password: ")
-username = 'tardssz'
-pw = 'babyshark3'
+username = input("Username: ")
+pw = getpass.getpass("Password: ")
 
-not_following = ast.literal_eval(open("/Users/mac/Desktop/Tests/PyTests/files/output.txt", "r").read())
+not_following = ast.literal_eval(open("/path/to/not_following_list.txt", "r").read())
 
 class InstaBot:
     def __init__(self, username, pw):
-        self.service = Service(executable_path='/Users/mac/Documents/Python/chromedriver')
+        self.service = Service(executable_path='/path/to/chromedriver') # Download ChromeDriver and open it once 
         self.options = webdriver.ChromeOptions()
         self.driver = webdriver.Chrome(service=self.service, options=self.options)
         self.driver.get("https://www.instagram.com/accounts/login/")
